@@ -28,3 +28,15 @@
 .eventsListForm-table_tr{
     height: 23px
 }
+
+.eventsListForm-table_buttonDiv{
+    margin-left: 569px;
+    margin-top: 15px
+}
+
+.eventsListForm-table_buttonDiv button{
+    background-color: cornflowerblue;
+    width: 130px;
+    color: white;
+    height: 25px
+}

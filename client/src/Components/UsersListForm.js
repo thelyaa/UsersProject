@@ -36,6 +36,7 @@ handleChangeRole(e) {
 
 assignFunction = (e) => {
     console.log(this.state.selectUser, this.state.selectUserId, this.state.selectEvent)
+    
     axios.post('http://localhost:9000/assignUser', null, {
         params: {
             userId: this.state.selectUserId,

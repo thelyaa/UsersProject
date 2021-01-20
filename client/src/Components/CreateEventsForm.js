@@ -5,7 +5,8 @@ import './CreateEventsForm/CreateEventsForm.css'
 export default class CreateEventsForm extends React.Component {
 
 state = {
-    eventTitle: "shr",
+    eventId: "",
+    eventTitle: "коыты",
     startDate: '2020-01-12',
     c1Date: '2020-01-13',
     cPlus1Date: '2020-01-15',
@@ -24,7 +25,8 @@ onInputChange(event){
     });
 }
 
-
+eventInfo = []
+eventId = "" 
 createEventsFunction = (e) => {
     if (this.state.startDate < this.state.c1Date && this.state.c1Date < this.state.cPlus1Date && this.state.cPlus1Date < this.state.finishDate){
         axios.post('http://localhost:9000/createEventsFunction', null, {
@@ -35,12 +37,16 @@ createEventsFunction = (e) => {
                 cPlus1Date: this.state.cPlus1Date,
                 finishDate: this.state.finishDate
             }
-        }).then((data) => { this.setState({eventTitle: "loh"});
-            console.log("success");
+        }).then((data) => {this.setState({eventId: data.data});
             
+            this.eventId = data.data
+            console.log("id from server", this.eventId)
+            this.eventInfo.push({eventId: this.eventId, title: this.state.eventTitle, startDate: this.state.startDate, c1Date: this.state.c1Date, cPlus1Date: this.state.cPlus1Date, finishDate: this.state.finishDate})
+            this.props.createEventHandler(this.eventInfo);
         });
     }
-    this.props.createEventHandler();
+    
+    
 }
 render() {
     return (

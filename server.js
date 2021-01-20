@@ -27,9 +27,9 @@ const MyModel = mongoose.model('users', new Schema({
 }));
 
 const EventsListModel = mongoose.model('admins', new Schema({  
-    userId: Schema.Types.ObjectId,
+    userId: String,
     userName: String,
-    eventId: Schema.Types.ObjectId,
+    eventId: String,
     eventTitle: String,
     role: String,
     assign: String
@@ -123,7 +123,7 @@ app.get('/getEvents', (req, res) =>{
 })
 
 app.post('/createEventsFunction', (req, res) => {
-    console.log(req.query);
+    //console.log(req.query);
     eventsModel.create({
         _eventTitle: req.query.title,
         _startDate: req.query.startDate,
@@ -132,8 +132,9 @@ app.post('/createEventsFunction', (req, res) => {
         _finishDate: req.query.finishDate,
         _participants: 0
     }, function(err, result){
-        console.log(result);
-        if (err) console.log(err);
+        console.log("id", result._id);
+        if (err) console.log(err)
+        res.send(result._id);
     });
 })
 
@@ -151,12 +152,16 @@ app.post('/assignUser', (req, res) => {
     });
 })
 
-//app.get('/getEventsListFunction', (req, res) => {
-//    eventsModel.find({}, function(err, data){
-//        console.log(data)
-//        res.send(data)
-//    })
-//})
+app.post('/updateEventTitleFunction', (req, res) => {
+    console.log("dbdd", req.query)
+    eventsModel.updateOne({_id: mongoose.Types.ObjectId(req.query.eventId)}, {_eventTitle: req.query.eventTitle}, function(err, result){
+        EventsListModel.updateOne({eventId: mongoose.Types.ObjectId(req.query.eventId)}, {eventTitle: req.query.eventTitle}, function(error, res){
+            if (error) console.log(error)
+        })
+        if (err) console.log(err)
+        res.send("success")
+    })
+})
 
 const PORT = 9000
 

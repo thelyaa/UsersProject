@@ -7,8 +7,7 @@ export default class EventsListForm extends React.Component {
 constructor(props){
     super(props);
 }
-
-handleChangeEvent
+    
 render() {
     return (
         <div className="eventsListForm-table">
@@ -28,18 +27,10 @@ render() {
                         </tr>
                     )
                 })}
-                <tr className="eventsListForm-table_tr">
-                    <td><select onChange={this.handleChangeEvent}>{this.props.eventsList[0].map((item) => {
-                        return(
-                            <option value={item.eventId}>{
-                                item._firstName} {item._lastName
-                            }</option>
-                        )                           
-                    })}</select></td>
-                    <td></td>
-                    <td></td>
-                </tr>
             </table>
+            <div className="eventsListForm-table_buttonDiv">
+                <button onClick={this.props.addEventHandler}>Add Event</button>
+            </div>
         </div>         
         );
     }

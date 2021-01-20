@@ -11,22 +11,38 @@ constructor(props){
 render() {
     return (
         <div className="eventsInfo">
+            {console.log(this.props.eventId)}
             <div className="eventsInfo-block">
                 <div className="eventsInfo-block_panel">
                     Events information
                     <button onClick={this.props.updateEventInfoHandler}></button>
                 </div>
-                <p>Event title:<input type="text"/></p>
+                <p>Event title:<input 
+                    type="text"
+                    value={this.props.eventTitle}/>
+                </p>
             </div>
             <div className="eventsInfo-block">
                 <div className="eventsInfo-block_panel">
                     Dates information
                     <button></button>
                 </div>
-                <p>Start Date: <input type="text" /></p>
-                <p>C1 Date: <input type="text" /></p>
-                <p>C+1 Date: <input type="text" /></p>
-                <p>Finish Date: <input type="text" /></p>
+                <p>Start Date: <input 
+                    type="text" 
+                    value={this.props.startDate}/>
+                </p>
+                <p>C1 Date: <input 
+                    type="text" 
+                    value={this.props.c1Date}/>
+                </p>
+                <p>C+1 Date: <input 
+                    type="text" 
+                    value={this.props.cPlus1Date}/>
+                </p>
+                <p>Finish Date: <input 
+                    type="text" 
+                    value={this.props.finishDate}/>
+                </p>
             </div>
             <div className="eventsInfo-block">
                 <div className="eventsInfo-block_panel">

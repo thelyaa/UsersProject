@@ -26,7 +26,13 @@ export default class App extends React.Component {
       role: "No role",
       list: [],
       usersList: [],
-      eventsList: []
+      eventsList: [],
+      eventTitle: "",
+      startDate: "",
+      c1Date: "",
+      cPlus1Date: "",
+      finishDate: "",
+      eventId: ""
   };
 
 //0 - главный экран (авторизация), 1 - регистрация, 2 - юзеринфо, 3 - сменить пароль (update login), 4 - редактировать профиль, 5 - пин, 6 - home page, 7 - admin все пользователи, 8 - events list, 9 - create events, 10 - events info, 11 - сменить тайтл мероприятия
@@ -44,7 +50,15 @@ export default class App extends React.Component {
             this.setState({list: list, usersList: usersList, eventsList: eventsList, currentScreen: 7})
         else this.setState({eventsList: eventsList, currentScreen: 8})
     }
-
+    
+    setEventInfoData(eventInfo){
+        this.setState({currentScreen: 10, eventTitle: eventInfo[0].title, startDate: eventInfo[0].startDate, c1Date: eventInfo[0].c1Date, cPlus1Date: eventInfo[0].cPlus1Date, finishDate: eventInfo[0].finishDate, eventId: eventInfo[0].eventId})
+        console.log(eventInfo)
+    }
+    
+    setEventTitleData(eventTitle){
+        this.setState({currentScreen: 10, eventTitle: eventTitle})
+    }
   render() {
     return (
       <div>{this.state.currentLogin} {this.state.password} {this.state.currentScreen}{
@@ -102,17 +116,28 @@ export default class App extends React.Component {
             handlerAssign={() => {this.setState({currentScreen: 6})}}/>
         ):""}
         {this.state.currentScreen === 8 ? (
-            <EventsListForm eventsList={this.state.eventsList}/>
+            <EventsListForm eventsList={this.state.eventsList}
+            addEventHandler={() => {this.setState({currentScreen: 9})}}/>
         ):""}
         {this.state.currentScreen === 9 ? (
-            <CreateEventsForm createEventHandler={() => {this.setState({currentScreen: 6})}}
+            <CreateEventsForm createEventHandler={this.setEventInfoData.bind(this)}
             cancelHandler={() => {this.setState({currentScreen: 6})}}/>
         ):""}
         {this.state.currentScreen === 10 ? (
-            <EventsForm updateEventInfoHandler={() => {this.setState({currentScreen: 11})}}/>
+            <EventsForm updateEventInfoHandler={() => {this.setState({currentScreen: 11})}}
+            eventTitle={this.state.eventTitle}
+            startDate={this.state.startDate}
+            c1Date={this.state.c1Date}
+            cPlus1Date={this.state.cPlus1Date}
+            finishDate={this.state.finishDate}
+            eventId={this.state.eventId}/>
         ):""}
         {this.state.currentScreen === 11 ? (
-            <UpdateEventInfoForm />
+            <UpdateEventInfoForm 
+            eventTitle={this.state.eventTitle}
+            eventId={this.state.eventId}
+            updateEventTitleHandler={this.setEventTitleData.bind(this)}
+            cancelHandler={() => {this.setState({currentScreen: 10})}}/>
         ):""}
       </div>
     );
