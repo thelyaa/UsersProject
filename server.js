@@ -43,6 +43,13 @@ const eventsModel = mongoose.model('events', new Schema({
     _finishDate: Date,
     _participants: Number
 }));
+
+const docModel = mongoose.model('documents', new Schema({
+    _eventId: String,
+    _day: String,
+    _for: String,
+    _docTitle: String
+}));
 //app.get('/', (req, res) => {
 //    console.log("worked");    
 //    var role = 0;
@@ -54,12 +61,12 @@ const eventsModel = mongoose.model('events', new Schema({
 //})
 
 app.post('/signInFunction', (req, res) => {
-//    console.log(req.query);
+    console.log(req.query);
     MyModel.find({
         _email: req.query.login,
         _password: req.query.password
     }, function(err, result){
-//        console.log(result, result.length.toString()); 
+        console.log(result); 
         res.send(result);
     });  
 })
@@ -163,6 +170,12 @@ app.post('/updateEventTitleFunction', (req, res) => {
     })
 })
 
+app.get('/getDocuments', (req, res) => {
+    docModel.find({}, function(err, result){
+        console.log(result)
+        res.send(result)
+    })
+})
 const PORT = 9000
 
 app.listen(PORT, () => console.log('server started'));

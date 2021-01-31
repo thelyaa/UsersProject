@@ -7,6 +7,10 @@ export default class EventsListForm extends React.Component {
 constructor(props){
     super(props);
 }
+ 
+//goToEventInfoFunction = (e) => {
+//    axios.post('http://localhost:9000/get')
+//}    
     
 render() {
     return (

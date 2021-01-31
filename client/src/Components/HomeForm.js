@@ -10,7 +10,8 @@ state = {
     usersList: [
         
     ],
-    eventsList: []
+    eventsList: [],
+    docList: []
 }
 
 constructor(props){
@@ -19,6 +20,7 @@ constructor(props){
 }
 newList = []
 newEventsList = []
+newDocList = []
 getEventsListFunction = (e) => {
    
     axios.get('http://localhost:9000/getAdminListFunction').then((res) => {
@@ -34,7 +36,7 @@ getEventsListFunction = (e) => {
             
             axios.get('http://localhost:9000/getEvents').then((res) =>{
                 this.state.eventsList.push(res.data)
-                this.props.browseUsersHandler(this.state.list, this.state.usersList, this.state.eventsList)
+                this.props.browseUsersHandler(this.state.list, this.state.usersList, this.state.eventsList, this.state.docList)
             })
            
         })      
@@ -56,7 +58,19 @@ getEventsFunction = (e) => {
         console.log(this.state.eventsList)
         this.state.eventsList.push(this.newEventsList)
         console.log(this.newEventsList)
-        this.props.browseEventsHandler(this.state.list, this.state.usersList, this.state.eventsList)
+        this.props.browseEventsHandler(this.state.list, this.state.usersList, this.state.eventsList, this.state.docList)
+    })
+}
+
+getDocumentsFunction = (e) => {
+    axios.get('http://localhost:9000/getDocuments').then((res) => {
+//        console.log(res.data)
+        for (var i = 0; i < res.data.length; i++){
+            this.newDocList.push({eventId: res.data[i]._eventId, day: res.data[i]._day, for: res.data[i]._for, title: res.data[i]._docTitle})
+        }
+        this.state.docList.push(this.newDocList)
+        console.log(this.state.docList)
+        this.props.browseDocsHandler(this.state.list, this.state.usersList, this.state.eventsList, this.state.docList)
     })
 }
 
@@ -83,7 +97,7 @@ render() {
                 <div className="homeForm-block_header">
                     Documents
                 </div>
-                <p>Browse</p>
+                <p onClick={this.getDocumentsFunction}>Browse</p>
                 <p>Create</p>
                 <p>Download</p>
             </div>

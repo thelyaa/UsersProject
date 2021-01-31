@@ -13,6 +13,7 @@ import EventsListForm from './Components/EventsListForm';
 import CreateEventsForm from './Components/CreateEventsForm';
 import EventsForm from './Components/EventsForm';
 import UpdateEventInfoForm from './Components/UpdateEventInfoForm';
+import DocumentsListForm from './Components/DocumentsListForm';
 
 export default class App extends React.Component {
   state = {
@@ -27,6 +28,7 @@ export default class App extends React.Component {
       list: [],
       usersList: [],
       eventsList: [],
+      docList: [],
       eventTitle: "",
       startDate: "",
       c1Date: "",
@@ -35,7 +37,7 @@ export default class App extends React.Component {
       eventId: ""
   };
 
-//0 - главный экран (авторизация), 1 - регистрация, 2 - юзеринфо, 3 - сменить пароль (update login), 4 - редактировать профиль, 5 - пин, 6 - home page, 7 - admin все пользователи, 8 - events list, 9 - create events, 10 - events info, 11 - сменить тайтл мероприятия
+//0 - главный экран (авторизация), 1 - регистрация, 2 - юзеринфо, 3 - сменить пароль (update login), 4 - редактировать профиль, 5 - пин, 6 - home page, 7 - admin все пользователи, 8 - events list, 9 - create events, 10 - events info, 11 - сменить тайтл мероприятия, 12 - список документов
 
     setLoginData(login, password, firstName, lastName, country, about){
         if (this.state.currentScreen === 3) this.setState({password: password, currentScreen: 2})
@@ -45,9 +47,10 @@ export default class App extends React.Component {
             this.setState({currentLogin: login, password: password, currentScreen: 2, firstName: firstName, lastName: lastName, country: country, about: about}) 
     }
     
-    setListData(list, usersList, eventsList){
+    setListData(list, usersList, eventsList, docList){
         if (list.length != 0 && this.state.currentScreen === 6)
             this.setState({list: list, usersList: usersList, eventsList: eventsList, currentScreen: 7})
+        else if (docList.length != 0) this.setState({docList: docList, currentScreen: 12})
         else this.setState({eventsList: eventsList, currentScreen: 8})
     }
     
@@ -106,7 +109,8 @@ export default class App extends React.Component {
             <HomeForm browseUsersHandler={this.setListData.bind(this)}
             browseEventsHandler={this.setListData.bind(this)}
             createEventsHandler={() => {this.setState({currentScreen: 9})}}
-            eventsInfoHandler={() => {this.setState({currentScreen: 10})}}/>
+            eventsInfoHandler={() => {this.setState({currentScreen: 10})}}
+            browseDocsHandler={this.setListData.bind(this)}/>
         ):""}
         {this.state.currentScreen === 7 ? (
             <UsersListForm 
@@ -138,6 +142,9 @@ export default class App extends React.Component {
             eventId={this.state.eventId}
             updateEventTitleHandler={this.setEventTitleData.bind(this)}
             cancelHandler={() => {this.setState({currentScreen: 10})}}/>
+        ):""}
+        {this.state.currentScreen === 12 ? (
+            <DocumentsListForm docList={this.state.docList}/>
         ):""}
       </div>
     );
