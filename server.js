@@ -48,7 +48,8 @@ const docModel = mongoose.model('documents', new Schema({
     _eventId: String,
     _day: String,
     _for: String,
-    _docTitle: String
+    _docTitle: String,
+    _content: String
 }));
 //app.get('/', (req, res) => {
 //    console.log("worked");    
@@ -172,6 +173,31 @@ app.post('/updateEventTitleFunction', (req, res) => {
 
 app.get('/getDocuments', (req, res) => {
     docModel.find({}, function(err, result){
+        console.log(result)
+        res.send(result)
+    })
+})
+
+app.post('/createDoc', (req, res) => {
+    docModel.create({
+        _docTitle: req.query.docTitle,
+        _day: req.query.day,
+        _content: req.query.content,
+        _for: req.query.for
+    }, function(err, result){
+        console.log(result)
+        res.send(result._id)
+    })
+})
+
+app.post('/updateDocFunction', (req, res) => {
+    docModel.updateOne({_id: mongoose.Types.ObjectId(req.query.docId)}, {
+        _docTitle: req.query.docTitle,
+        _day: req.query.day,
+        _content: req.query.content,
+        _for: req.query._for
+    },
+    function(err, result){
         console.log(result)
         res.send(result)
     })

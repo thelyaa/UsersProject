@@ -14,6 +14,9 @@ import CreateEventsForm from './Components/CreateEventsForm';
 import EventsForm from './Components/EventsForm';
 import UpdateEventInfoForm from './Components/UpdateEventInfoForm';
 import DocumentsListForm from './Components/DocumentsListForm';
+import CreateDocForm from './Components/CreateDocForm';
+import DocsForm from './Components/DocsForm';
+import UpdateDocInfoForm from './Components/UpdateDocInfoForm';
 
 export default class App extends React.Component {
   state = {
@@ -34,10 +37,15 @@ export default class App extends React.Component {
       c1Date: "",
       cPlus1Date: "",
       finishDate: "",
-      eventId: ""
+      eventId: "",
+      docTitle: "",
+      day: "",
+      content: "",
+      _for: "",
+      docId: ""
   };
 
-//0 - главный экран (авторизация), 1 - регистрация, 2 - юзеринфо, 3 - сменить пароль (update login), 4 - редактировать профиль, 5 - пин, 6 - home page, 7 - admin все пользователи, 8 - events list, 9 - create events, 10 - events info, 11 - сменить тайтл мероприятия, 12 - список документов
+//0 - главный экран (авторизация), 1 - регистрация, 2 - юзеринфо, 3 - сменить пароль (update login), 4 - редактировать профиль, 5 - пин, 6 - home page, 7 - admin все пользователи, 8 - events list, 9 - create events, 10 - events info, 11 - сменить тайтл мероприятия, 12 - список документов, 13 - create doc, 14 - doc info, 15 - doc update
 
     setLoginData(login, password, firstName, lastName, country, about){
         if (this.state.currentScreen === 3) this.setState({password: password, currentScreen: 2})
@@ -61,6 +69,18 @@ export default class App extends React.Component {
     
     setEventTitleData(eventTitle){
         this.setState({currentScreen: 10, eventTitle: eventTitle})
+    }
+
+    setDocInfoData(docInfo){
+        this.setState({currentScreen: 14, docTitle: docInfo[0].docTitle, day: docInfo[0].day, content: docInfo[0].content, _for: docInfo[0].for, docId: docInfo[0].docId})
+    }
+
+    setDocInfoForUpdate(title, day, content, _for, docId){
+        this.setState({currentScreen: 15, docTitle: title, day: day, content: content, _for: _for, docId: docId})
+    }
+
+    setUpdateDocData(title, day, content, _for){
+        this.setState({currentScreen: 14, docTitle: title, day: day, content: content, _for: _for})
     }
   render() {
     return (
@@ -110,7 +130,8 @@ export default class App extends React.Component {
             browseEventsHandler={this.setListData.bind(this)}
             createEventsHandler={() => {this.setState({currentScreen: 9})}}
             eventsInfoHandler={() => {this.setState({currentScreen: 10})}}
-            browseDocsHandler={this.setListData.bind(this)}/>
+            browseDocsHandler={this.setListData.bind(this)}
+            createDocHandler={() => {this.setState({currentScreen: 13})}}/>
         ):""}
         {this.state.currentScreen === 7 ? (
             <UsersListForm 
@@ -144,7 +165,32 @@ export default class App extends React.Component {
             cancelHandler={() => {this.setState({currentScreen: 10})}}/>
         ):""}
         {this.state.currentScreen === 12 ? (
-            <DocumentsListForm docList={this.state.docList}/>
+            <DocumentsListForm docList={this.state.docList}
+            addDocumentHandler={() => {this.setState({currentScreen: 13})}}/>
+        ):""}
+        {this.state.currentScreen === 13 ? (
+            <CreateDocForm createDocHandler={this.setDocInfoData.bind(this)}
+            cancelHandler={() => {this.setState({currentScreen: 6})}}/>
+        ):""}
+        {this.state.currentScreen === 14 ? (
+            <DocsForm 
+            docTitle={this.state.docTitle}
+            day={this.state.day}
+            content={this.state.content}
+            _for={this.state._for}
+            docId={this.state.docId}
+            updateDocInfoHandler={this.setDocInfoForUpdate.bind(this)}
+            cancelHandler={() => {this.setState({currentScreen: 6})}}/>
+        ):""}
+        {this.state.currentScreen === 15 ? (
+            <UpdateDocInfoForm
+            docTitle={this.state.docTitle}
+            docId={this.state.docId}
+            day={this.state.day}
+            content={this.state.content}
+            _for={this.state._for}
+            cancelHandler={() => {this.setState({currentScreen: 14})}}
+            updateDocHandler={this.setUpdateDocData.bind(this)}/>
         ):""}
       </div>
     );

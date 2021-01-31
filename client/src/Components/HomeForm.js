@@ -98,7 +98,7 @@ render() {
                     Documents
                 </div>
                 <p onClick={this.getDocumentsFunction}>Browse</p>
-                <p>Create</p>
+                <p onClick={this.props.createDocHandler}>Create</p>
                 <p>Download</p>
             </div>
         </div>
