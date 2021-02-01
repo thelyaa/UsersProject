@@ -77,28 +77,36 @@ getDocumentsFunction = (e) => {
 render() {
     return (
         <div className="homeForm-block">
-            <div className="homeForm-block_users">
-                <div className="homeForm-block_header">
-                    Users
-                </div>
+            {this.props.role !== "No role" ? (
+                <div className="homeForm-block_users"><div className="homeForm-block_header">Users</div>
                 <p onClick={this.getEventsListFunction}>Browse</p>
                 <p>Create</p>
                 <p>Assign</p>
             </div>
+            ):""}
+            
              <div className="homeForm-block_events">
                 <div className="homeForm-block_header">
                     Events
                 </div>
                 <p onClick={this.getEventsFunction}>Browse</p>
-                <p onClick={this.props.createEventsHandler}>Create</p>
-                <p>Assign</p>
+                {this.props.role !== "No role" ? (
+                    <p onClick={this.props.createEventsHandler}>Create</p>
+                    
+                ):""}
+
+                 <p>Assign</p>
             </div>
+                
             <div className="homeForm-block_documents">
                 <div className="homeForm-block_header">
                     Documents
                 </div>
                 <p onClick={this.getDocumentsFunction}>Browse</p>
-                <p onClick={this.props.createDocHandler}>Create</p>
+                {this.props.role !== "No role" ? (
+                    <p onClick={this.props.createDocHandler}>Create</p>
+                ):""}
+                
                 <p>Download</p>
             </div>
         </div>

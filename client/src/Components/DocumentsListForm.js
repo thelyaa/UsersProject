@@ -27,9 +27,11 @@ render() {
                     )
                 })}
             </table>
-            <div className="eventsListForm-table_buttonDiv">
-                <button onClick={this.props.addDocumentHandler}>Add Docuemnt</button>
-            </div>
+            {this.props.role === "admin" ? (
+                <div className="eventsListForm-table_buttonDiv">
+                    <button onClick={this.props.addDocumentHandler}>Add Docuemnt</button>
+                </div>
+            ):""}            
         </div>         
         );
     }

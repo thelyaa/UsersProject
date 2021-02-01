@@ -142,7 +142,8 @@ export default class App extends React.Component {
             createEventsHandler={() => {this.setState({currentScreen: 9})}}
             eventsInfoHandler={() => {this.setState({currentScreen: 10})}}
             browseDocsHandler={this.setListData.bind(this)}
-            createDocHandler={() => {this.setState({currentScreen: 13})}}/>
+            createDocHandler={() => {this.setState({currentScreen: 13})}}
+            role={this.state.role}/>
         ):""}
         {this.state.currentScreen === 7 ? (
             <UsersListForm 
@@ -153,7 +154,8 @@ export default class App extends React.Component {
         ):""}
         {this.state.currentScreen === 8 ? (
             <EventsListForm eventsList={this.state.eventsList}
-            addEventHandler={() => {this.setState({currentScreen: 9})}}/>
+            addEventHandler={() => {this.setState({currentScreen: 9})}}
+            role={this.state.role}/>
         ):""}
         {this.state.currentScreen === 9 ? (
             <CreateEventsForm createEventHandler={this.setEventInfoData.bind(this)}
@@ -177,7 +179,8 @@ export default class App extends React.Component {
         ):""}
         {this.state.currentScreen === 12 ? (
             <DocumentsListForm docList={this.state.docList}
-            addDocumentHandler={() => {this.setState({currentScreen: 13})}}/>
+            addDocumentHandler={() => {this.setState({currentScreen: 13})}}
+            role={this.state.role}/>
         ):""}
         {this.state.currentScreen === 13 ? (
             <CreateDocForm createDocHandler={this.setDocInfoData.bind(this)}

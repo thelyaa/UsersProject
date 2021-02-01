@@ -6,11 +6,7 @@ export default class EventsListForm extends React.Component {
 
 constructor(props){
     super(props);
-}
- 
-//goToEventInfoFunction = (e) => {
-//    axios.post('http://localhost:9000/get')
-//}    
+}    
     
 render() {
     return (
@@ -32,9 +28,11 @@ render() {
                     )
                 })}
             </table>
-            <div className="eventsListForm-table_buttonDiv">
-                <button onClick={this.props.addEventHandler}>Add Event</button>
-            </div>
+            {this.props.role === "admin" ? (
+                <div className="eventsListForm-table_buttonDiv">
+                    <button onClick={this.props.addEventHandler}>Add Event</button>
+                </div>
+            ):""}    
         </div>         
         );
     }
