@@ -23,7 +23,6 @@ getDocInfoFunction(id){
 render() {
     return (
         <div className="eventsListForm-table">
-//            {console.log(this.props.docList[0])}
             <table>
                 <tr>
                     <th>Document</th>

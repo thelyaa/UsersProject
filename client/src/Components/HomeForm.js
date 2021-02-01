@@ -105,7 +105,6 @@ render() {
                     <p onClick={this.props.createDocHandler}>Create</p>
                 ):""}
                 
-                <p>Download</p>
             </div>
         </div>
         );

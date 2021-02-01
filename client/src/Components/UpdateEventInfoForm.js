@@ -5,11 +5,18 @@ import './EventsForm/UpdateEventInfoForm.css'
 export default class EventsForm extends React.Component {
   
 state = {
-    title: "dgfdsb"
+    title: this.props.eventTitle
 }
 
 constructor(props){
     super(props);
+    this.onInputChange = this.onInputChange.bind(this)
+}
+
+onInputChange(event){
+    this.setState({
+        [event.target.name]: event.target.value
+    });
 }
 
 updateEventTitleFunction = (e) => {
@@ -28,7 +35,9 @@ render() {
         <div className="updateEventInfo-block">
             <label>Event Title: </label><input 
                 type="text"
-                value={this.state.title}/>
+                value={this.state.title}
+                name="title"
+                onChange={this.onInputChange}/>
             <div className="updateEventInfo-block_buttonDiv">
                 <button onClick={this.updateEventTitleFunction}>OK</button>
                 <button onClick={this.props.cancelHandler}>Cancel</button>
