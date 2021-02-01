@@ -7,26 +7,19 @@ export default class UserinfoForm extends React.Component {
 constructor(props){
     super(props);
     this.state = {
-        role: 1,
-        loginValue: ""
+        pin: this.props.pin
     };
 }
-    
-//componentDidMount = () => {
-//    const res = axios.get('http://localhost:9000/', {
-//  proxy: {
-//    host: 'localhost',
-//    port: 9000
-//  }
-//});
-//    res.then((data) => {this.setState({role: data.data.role})})
-//}
 
-//componentDidMount = () => {
-//    axios.get("localhost:9000").then(res => {
-//        console.log(res)
-//    });
-//}{this.setState({role: res.data.role})})
+resetPINFunction = (e) => {
+    axios.post('http://localhost:9000/resetPin', null, {
+        params: {
+            userId: this.props.userId
+        }
+    }).then((data) => {
+        this.setState({pin: ""})
+    })
+} 
 
 render() {
     return (
@@ -73,9 +66,22 @@ render() {
                     <div className="userinfoForm-right_block">
                         <div className="userinfoForm-right_updatePanel">Personal Identification Number</div>
                         <p className="userinfoForm-right_p">PIN:
-                        <div className="userinfoForm-right-block_setPIN"><button 
-                            className="userinfoForm-right_setPIN" 
-                            onClick={this.props.setPINHandler}>Set PIN</button></div></p>
+                            {this.props.pin !== "" ? (
+                                <input 
+                                    type="password" 
+                                    value={this.state.pin}/>                               
+                            ):""}
+                        <div className="userinfoForm-right-block_setPIN">
+                            
+                            {this.state.pin !== "" ? (
+                                <button onClick={this.resetPINFunction}>Reset PIN</button>
+                            ):""}
+                            {this.state.pin === "" ? (
+                                <button 
+                                    className="userinfoForm-right_setPIN" 
+                                    onClick={this.props.setPINHandler}>Set PIN</button>
+                            ):""}
+                        </div></p>
                     </div>
                 </div>
                 <div className="userinfoForm-right-buttonDiv">

@@ -4,6 +4,12 @@
     width: 600px;
 }
 
+.userinfoForm-right input{
+    border-color: white;
+    border-width: 0;
+    margin-left: 5px
+}
+
 .userinfoForm-right_updatePanel {
     width: 588px;
     background-color: skyblue;
@@ -17,7 +23,7 @@
 
 .userinfoForm-right_block {
     margin-top: 10px;
-    width: 600xp;
+    width: 600px;
     border: 1px solid;
     border-color: cornflowerblue;
 }

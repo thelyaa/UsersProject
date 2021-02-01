@@ -22,12 +22,14 @@ export default class App extends React.Component {
   state = {
       currentScreen: 0,
       currentLogin: "не авторизирован",
+      userId: "",
       password: "",
       firstName: "",
       lastName: "",
       country: "",
       about: "",
       role: "No role",
+      pin: "",
       list: [],
       usersList: [],
       eventsList: [],
@@ -47,12 +49,12 @@ export default class App extends React.Component {
 
 //0 - главный экран (авторизация), 1 - регистрация, 2 - юзеринфо, 3 - сменить пароль (update login), 4 - редактировать профиль, 5 - пин, 6 - home page, 7 - admin все пользователи, 8 - events list, 9 - create events, 10 - events info, 11 - сменить тайтл мероприятия, 12 - список документов, 13 - create doc, 14 - doc info, 15 - doc update
 
-    setLoginData(login, password, firstName, lastName, country, about){
+    setLoginData(login, password, firstName, lastName, country, about, role, pin, userId){
         if (this.state.currentScreen === 3) this.setState({password: password, currentScreen: 2})
         else if (this.state.currentScreen === 4) 
             this.setState({currentScreen: 2, firstName: firstName, lastName: lastName, country: country, about: about});
         else
-            this.setState({currentLogin: login, password: password, currentScreen: 2, firstName: firstName, lastName: lastName, country: country, about: about}) 
+            this.setState({currentLogin: login, password: password, currentScreen: 2, firstName: firstName, lastName: lastName, country: country, about: about, role: role, pin: pin, userId: userId}) 
     }
     
     setListData(list, usersList, eventsList, docList){
@@ -82,9 +84,14 @@ export default class App extends React.Component {
     setUpdateDocData(title, day, content, _for){
         this.setState({currentScreen: 14, docTitle: title, day: day, content: content, _for: _for})
     }
+    
+    setPINData(pin){
+        this.setState({currentScreen: 2, pin: pin})   
+    }
+
   render() {
     return (
-      <div>{this.state.currentLogin} {this.state.password} {this.state.currentScreen}{
+      <div>{this.state.currentLogin} {this.state.role} {this.state.currentScreen}{
         this.state.currentScreen === 0 ? (
             <LoginForm signUpHandler={()=>{this.setState({currentScreen: 1})}}
             signInHandler={this.setLoginData.bind(this)}/>
@@ -103,7 +110,9 @@ export default class App extends React.Component {
             firstName={this.state.firstName}
             lastName={this.state.lastName}
             country={this.state.country}
-            about={this.state.about}/>
+            about={this.state.about}
+            pin={this.state.pin}
+            userId={this.state.userId}/>
         ):""}
         {this.state.currentScreen === 3 ? (
             <UpdateLoginForm cancelHandler={() => {this.setState({currentScreen: 2})}}
@@ -122,8 +131,10 @@ export default class App extends React.Component {
             about={this.state.about}/>    
         ):""}
         {this.state.currentScreen === 5 ? (
-            <UserPINForm savePINHandler={() => {this.setState({currentScreen: 2})}}
-            cancelHandler={() => {this.setState({currentScreen: 2})}}/>    
+            <UserPINForm savePINHandler={this.setPINData.bind(this)}
+            cancelHandler={() => {this.setState({currentScreen: 2})}}
+            pin={this.state.pin}
+            userId={this.state.userId}/>    
         ):""}
         {this.state.currentScreen === 6 ? (
             <HomeForm browseUsersHandler={this.setListData.bind(this)}

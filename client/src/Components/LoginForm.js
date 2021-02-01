@@ -11,7 +11,10 @@ state = {
     firstName: "Aaron",
     lastName: "Lostovich",
     country: "noname ostrov",
-    about: ""
+    about: "",
+    role: "",
+    pin: "",
+    userId: ""
 }
 
 constructor(props){
@@ -26,7 +29,6 @@ onInputChange(event){
     });
 }
 
-//resLength = 0 если с сервера вернулось 0 (нет результатов запроса), resLength = '1' если результат запроса не пустой
 signInFunction = (e) =>{
     axios.post('http://localhost:9000/signInFunction', null, {
         params: {
@@ -45,9 +47,12 @@ signInFunction = (e) =>{
                 firstName: data.data[0]._firstName,
                 lastName: data.data[0]._lastName,
                 country: data.data[0]._country,
-                about: data.data[0]._about
+                about: data.data[0]._about,
+                role: data.data[0]._role,
+                pin: data.data[0]._pin,
+                userId: data.data[0]._id
             });
-            this.props.signInHandler(this.state.loginValue, this.state.password, this.state.firstName, this.state.lastName, this.state.country, this.state.about);
+            this.props.signInHandler(this.state.loginValue, this.state.password, this.state.firstName, this.state.lastName, this.state.country, this.state.about, this.state.role, this.state.pin, this.state.userId);
             console.log(this.state.resLength);
         }
     });  

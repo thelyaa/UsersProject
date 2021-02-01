@@ -23,7 +23,8 @@ const MyModel = mongoose.model('users', new Schema({
     _repeatPassword: String,
     _about: String,
     _role: String,
-    _created: Date
+    _created: Date,
+    _pin: String
 }));
 
 const EventsListModel = mongoose.model('admins', new Schema({  
@@ -62,12 +63,12 @@ const docModel = mongoose.model('documents', new Schema({
 //})
 
 app.post('/signInFunction', (req, res) => {
-    console.log(req.query);
+//    console.log(req.query);
     MyModel.find({
         _email: req.query.login,
         _password: req.query.password
     }, function(err, result){
-        console.log(result); 
+//        console.log(result); 
         res.send(result);
     });  
 })
@@ -83,9 +84,11 @@ app.post('/registerNewUserFunction', (req, res) => {
         _password: req.query.password,
         _repeatPassword: req.query.repeatPassword,
         _role: "No role",
-        _created: date
+        _created: date,
+        _pin: ""
     }, function(err, result){
         console.log(result);  
+        res.send(result)
         if (err) console.log(err);
     });
 })
@@ -200,6 +203,24 @@ app.post('/updateDocFunction', (req, res) => {
     function(err, result){
         console.log(result)
         res.send(result)
+    })
+})
+
+app.post('/resetPin',(req, res) => {
+    MyModel.updateOne({_id: mongoose.Types.ObjectId(req.query.userId)}, {
+        _pin: ""
+    }, function(err, result){
+//        console.log(result)
+        res.send("success")
+    })
+})
+
+app.post('/savePIN', (req, res) => {
+    console.log(req.query)
+    MyModel.updateOne({_id: mongoose.Types.ObjectId(req.query.userId)}, {
+        _pin: req.query.pin
+    }, function(err, result){
+        res.send("success")
     })
 })
 const PORT = 9000

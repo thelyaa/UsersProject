@@ -10,7 +10,9 @@ state = {
     country: "noname ostrov",
     email: "1234@gmail.com",
     password: "123",
-    repeatPassword: "123"
+    repeatPassword: "123",
+    pin: "",
+    userId: ""
 }
 
 constructor(props){
@@ -37,9 +39,12 @@ registerNewUserFunction = (e) => {
                 password: this.state.password,
                 repeatPassword: this.state.repeatPassword
             }
-        }).then((data) => {this.setState({firstName: "dzhd"})});
-        console.log(this.state.firstName)
-        this.props.registerHandler(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.country, this.state.about);
+        }).then((data) => {
+            console.log(data.data)
+            this.setState({pin: data.data._pin, userId: data.data._id})
+            this.props.registerHandler(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.country, this.state.about, "No role", this.state.pin, this.state.userId);
+        });
+       
     }
     else alert("заполните пустые поля");
 }
