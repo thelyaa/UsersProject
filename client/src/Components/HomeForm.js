@@ -25,7 +25,7 @@ getEventsListFunction = (e) => {
    
     axios.get('http://localhost:9000/getAdminListFunction').then((res) => {
         for(var i = 0; i < res.data.length; i++){
-            this.newList.push({user: res.data[i].userName, event: res.data[i].eventTitle, role: res.data[i].role, assign: res.data[i].assign})                           
+            this.newList.push({user: res.data[i].userName, event: res.data[i].eventTitle, role: res.data[i].role, assign: res.data[i].assign, id: res.data[i]._id})                           
         }
         this.state.list.push(this.newList)
         
@@ -66,7 +66,7 @@ getDocumentsFunction = (e) => {
     axios.get('http://localhost:9000/getDocuments').then((res) => {
 //        console.log(res.data)
         for (var i = 0; i < res.data.length; i++){
-            this.newDocList.push({eventId: res.data[i]._eventId, day: res.data[i]._day, for: res.data[i]._for, title: res.data[i]._docTitle})
+            this.newDocList.push({eventId: res.data[i]._eventId, day: res.data[i]._day, for: res.data[i]._for, title: res.data[i]._docTitle, id: res.data[i]._id})
         }
         this.state.docList.push(this.newDocList)
         console.log(this.state.docList)
@@ -80,8 +80,7 @@ render() {
             {this.props.role !== "No role" ? (
                 <div className="homeForm-block_users"><div className="homeForm-block_header">Users</div>
                 <p onClick={this.getEventsListFunction}>Browse</p>
-                <p>Create</p>
-                <p>Assign</p>
+                
             </div>
             ):""}
             
@@ -95,7 +94,6 @@ render() {
                     
                 ):""}
 
-                 <p>Assign</p>
             </div>
                 
             <div className="homeForm-block_documents">

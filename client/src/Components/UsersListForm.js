@@ -17,7 +17,7 @@ constructor(props){
     this.handleChangeUser = this.handleChangeUser.bind(this)
     this.handleChangeEvent = this.handleChangeEvent.bind(this)
     this.handleChangeRole = this.handleChangeRole.bind(this)
-    
+    this.removeUserFromEventFunction = this.removeUserFromEventFunction.bind(this);
 }
 
      
@@ -50,7 +50,25 @@ assignFunction = (e) => {
     })
     
 }
-    
+   
+removeUserFromEventFunction(id){
+    axios.post('http://localhost:9000/getAdminListInfo', null, {
+        params: {
+            id: id,
+            
+        }
+    }).then((data) => {
+        console.log(data.data[0])
+        
+        axios.post('http://localhost:9000/updateParticipants', null, {
+            params: {
+                eventId: data.data[0].eventId
+            }
+        }).then((res) => {
+            
+        })
+    })
+}
 render() {
     return (
         <div className="usersListForm-table">
@@ -63,16 +81,19 @@ render() {
                  </tr> 
                 {this.props.list[0].map((item) => {
                     return(
-                        <tr>{
-                            Object.values(item).map(value => {
-                                return (
-                                    <td>{value}</td>
-                                )
-                        })}</tr>
+                        <tr>         
+                            <td>{item.user}</td>
+                            <td>{item.event}</td>   
+                            <td>{item.role}</td>
+                            {item.assign === "Assign" ? (
+                                <button onClick={() => {this.removeUserFromEventFunction(item.id)}}>Remove</button>
+                            ):""}
+
+                           
+                        </tr>
                     )
                 })}
                 <tr className="usersListForm-table_tr">
-                    {console.log(this.props.usersList[0])}
                     <td><select onChange={this.handleChangeUser}>{this.props.usersList[0].map((item) => {
                                  return(
                                  <option value={item._id}>{

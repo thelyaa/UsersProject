@@ -4,6 +4,11 @@
     width: 600px;
 }
 
+.eventsInfo input{
+    border-color: white;
+    border-width: 0
+}
+
 .eventsInfo-block_panel{
     width: 588px;
     background-color: skyblue;

@@ -50,7 +50,8 @@ const docModel = mongoose.model('documents', new Schema({
     _day: String,
     _for: String,
     _docTitle: String,
-    _content: String
+    _content: String,
+    _signed: String
 }));
 //app.get('/', (req, res) => {
 //    console.log("worked");    
@@ -128,7 +129,7 @@ app.get('/getUsers', (req, res) =>{
 
 app.get('/getEvents', (req, res) =>{
     eventsModel.find({}, function(err, data){
-        console.log(data)
+//        console.log(data)
         res.send(data)
     })
 })
@@ -150,7 +151,7 @@ app.post('/createEventsFunction', (req, res) => {
 })
 
 app.post('/assignUser', (req, res) => {
-    console.log(req.query)
+//    console.log(req.query)
     EventsListModel.create({
         userId: req.query.userId,
         userName: req.query.userName,
@@ -159,8 +160,16 @@ app.post('/assignUser', (req, res) => {
         role: req.query.role,
         assign: req.query.assign
     }, function(err, result){
-        console.log(result)
-    });
+//        console.log(result)
+        eventsModel.find({_id: req.query.eventId}, function(err, data){
+            console.log("bla", data[0]._participants + 1)
+            var part = data[0]._participants + 1
+            eventsModel.updateOne({_id: req.query.eventId}, {_participants: part}, 
+            function(err, rslt){  
+                 res.send("success")
+             })
+       });
+    })
 })
 
 app.post('/updateEventTitleFunction', (req, res) => {
@@ -176,7 +185,7 @@ app.post('/updateEventTitleFunction', (req, res) => {
 
 app.get('/getDocuments', (req, res) => {
     docModel.find({}, function(err, result){
-        console.log(result)
+//        console.log(result)
         res.send(result)
     })
 })
@@ -186,9 +195,10 @@ app.post('/createDoc', (req, res) => {
         _docTitle: req.query.docTitle,
         _day: req.query.day,
         _content: req.query.content,
-        _for: req.query.for
+        _for: req.query.for,
+        _signed: "none"
     }, function(err, result){
-        console.log(result)
+//        console.log(result)
         res.send(result._id)
     })
 })
@@ -201,7 +211,7 @@ app.post('/updateDocFunction', (req, res) => {
         _for: req.query._for
     },
     function(err, result){
-        console.log(result)
+//        console.log(result)
         res.send(result)
     })
 })
@@ -223,6 +233,48 @@ app.post('/savePIN', (req, res) => {
         res.send("success")
     })
 })
+
+app.post('/getDocumentInfo', (req, res) => {
+    docModel.find({_id: req.query.id}, function(err, result){
+        res.send(result)
+    })
+})
+
+app.post('/getAdminListInfo', (req, res) => {
+    console.log(req.query)
+    EventsListModel.find({_id: req.query.id}, function(err, result){
+        EventsListModel.deleteOne({_id: req.query.id}, function(err, data){ 
+            res.send(result)
+        })
+    })
+})
+
+app.post('/updateParticipants', (req, res) => {
+    eventsModel.find({_id: req.query.eventId}, function(err, result){
+        var part = result[0]._participants - 1
+        eventsModel.updateOne({_id: req.query.eventId}, {_participants: part},
+        function(err, data){
+            res.send("success")    
+        })
+    })
+})
+
+app.post('/getEventInfo', (req, res) => {
+    eventsModel.find({_id: req.query.id}, function(err, result){
+        res.send(result[0])
+    })
+})
+
+app.post('/getUserEvents', (req, res) => {
+    EventsListModel.find({
+        userId: mongoose.Types.ObjectId(req.query.userId),
+        eventId: mongoose.Types.ObjectId(req.query.eventId)
+    }, function(err, result){
+        console.log(result)
+        res.send(result[0])
+    })
+})
+
 const PORT = 9000
 
 app.listen(PORT, () => console.log('server started'));

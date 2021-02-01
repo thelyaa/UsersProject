@@ -44,7 +44,9 @@ export default class App extends React.Component {
       day: "",
       content: "",
       _for: "",
-      docId: ""
+      docId: "",
+      participants: 0,
+      isPart: false
   };
 
 //0 - главный экран (авторизация), 1 - регистрация, 2 - юзеринфо, 3 - сменить пароль (update login), 4 - редактировать профиль, 5 - пин, 6 - home page, 7 - admin все пользователи, 8 - events list, 9 - create events, 10 - events info, 11 - сменить тайтл мероприятия, 12 - список документов, 13 - create doc, 14 - doc info, 15 - doc update
@@ -64,9 +66,8 @@ export default class App extends React.Component {
         else this.setState({eventsList: eventsList, currentScreen: 8})
     }
     
-    setEventInfoData(eventInfo){
-        this.setState({currentScreen: 10, eventTitle: eventInfo[0].title, startDate: eventInfo[0].startDate, c1Date: eventInfo[0].c1Date, cPlus1Date: eventInfo[0].cPlus1Date, finishDate: eventInfo[0].finishDate, eventId: eventInfo[0].eventId})
-        console.log(eventInfo)
+    setEventInfoData(eventInfo, isPart){
+        this.setState({currentScreen: 10, eventTitle: eventInfo[0].title, startDate: eventInfo[0].startDate, c1Date: eventInfo[0].c1Date, cPlus1Date: eventInfo[0].cPlus1Date, finishDate: eventInfo[0].finishDate, eventId: eventInfo[0].eventId, participants: eventInfo[0].participants, isPart: isPart})
     }
     
     setEventTitleData(eventTitle){
@@ -87,6 +88,10 @@ export default class App extends React.Component {
     
     setPINData(pin){
         this.setState({currentScreen: 2, pin: pin})   
+    }
+    
+    setDocInfoFromList(docId, docTitle, day, content, _for){
+        this.setState({docId: docId, docTitle: docTitle, day: day, content: content, _for: _for, currentScreen: 14})
     }
 
   render() {
@@ -140,7 +145,7 @@ export default class App extends React.Component {
             <HomeForm browseUsersHandler={this.setListData.bind(this)}
             browseEventsHandler={this.setListData.bind(this)}
             createEventsHandler={() => {this.setState({currentScreen: 9})}}
-            eventsInfoHandler={() => {this.setState({currentScreen: 10})}}
+//            eventsInfoHandler={() => {this.setState({currentScreen: 10})}}
             browseDocsHandler={this.setListData.bind(this)}
             createDocHandler={() => {this.setState({currentScreen: 13})}}
             role={this.state.role}/>
@@ -155,7 +160,10 @@ export default class App extends React.Component {
         {this.state.currentScreen === 8 ? (
             <EventsListForm eventsList={this.state.eventsList}
             addEventHandler={() => {this.setState({currentScreen: 9})}}
-            role={this.state.role}/>
+            role={this.state.role}
+            goToEventInfo={this.setEventInfoData.bind(this)}
+            userId={this.state.userId}
+            cancelHandler={() => {this.setState({currentScreen: 6})}}/>
         ):""}
         {this.state.currentScreen === 9 ? (
             <CreateEventsForm createEventHandler={this.setEventInfoData.bind(this)}
@@ -168,7 +176,11 @@ export default class App extends React.Component {
             c1Date={this.state.c1Date}
             cPlus1Date={this.state.cPlus1Date}
             finishDate={this.state.finishDate}
-            eventId={this.state.eventId}/>
+            eventId={this.state.eventId}
+            participants={this.state.participants}
+            role={this.state.role}
+            cancelHandler={() => {this.setState({currentScreen: 8})}}
+            isPart={this.state.isPart}/>
         ):""}
         {this.state.currentScreen === 11 ? (
             <UpdateEventInfoForm 
@@ -180,7 +192,8 @@ export default class App extends React.Component {
         {this.state.currentScreen === 12 ? (
             <DocumentsListForm docList={this.state.docList}
             addDocumentHandler={() => {this.setState({currentScreen: 13})}}
-            role={this.state.role}/>
+            role={this.state.role}
+            goToDocInfoHandler={this.setDocInfoFromList.bind(this)}/>
         ):""}
         {this.state.currentScreen === 13 ? (
             <CreateDocForm createDocHandler={this.setDocInfoData.bind(this)}
@@ -193,6 +206,7 @@ export default class App extends React.Component {
             content={this.state.content}
             _for={this.state._for}
             docId={this.state.docId}
+            role={this.state.role}
             updateDocInfoHandler={this.setDocInfoForUpdate.bind(this)}
             cancelHandler={() => {this.setState({currentScreen: 6})}}/>
         ):""}

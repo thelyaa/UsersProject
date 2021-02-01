@@ -42,7 +42,7 @@ createEventsFunction = (e) => {
             this.eventId = data.data
             console.log("id from server", this.eventId)
             this.eventInfo.push({eventId: this.eventId, title: this.state.eventTitle, startDate: this.state.startDate, c1Date: this.state.c1Date, cPlus1Date: this.state.cPlus1Date, finishDate: this.state.finishDate})
-            this.props.createEventHandler(this.eventInfo);
+            this.props.createEventHandler(this.eventInfo, "");
         });
     }
     

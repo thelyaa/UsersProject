@@ -7,15 +7,17 @@ export default class EventsForm extends React.Component {
 constructor(props){
     super(props);
 }
-
+    
 render() {
     return (
         <div className="eventsInfo">
-            {console.log(this.props.eventId)}
             <div className="eventsInfo-block">
                 <div className="eventsInfo-block_panel">
                     Events information
-                    <button onClick={this.props.updateEventInfoHandler}></button>
+                    {this.props.role === "admin" ? (
+                        <button onClick={this.props.updateEventInfoHandler}></button>
+                    ):""}
+                    
                 </div>
                 <p>Event title:<input 
                     type="text"
@@ -25,7 +27,6 @@ render() {
             <div className="eventsInfo-block">
                 <div className="eventsInfo-block_panel">
                     Dates information
-                    <button></button>
                 </div>
                 <p>Start Date: <input 
                     type="text" 
@@ -47,12 +48,15 @@ render() {
             <div className="eventsInfo-block">
                 <div className="eventsInfo-block_panel">
                     Participants
-                <button></button>
                 </div>
-                <p>Participants: <input type="text"/> <button className="eventsInfo-block_participants">Assign</button></p>
+                <p>Participants: <input type="text" value={this.props.participants}/> 
+                    {this.props.role === "admin" ? (
+                        <button className="eventsInfo-block_participants">Assign</button>
+                    ):""}
+                </p>
             </div>
             <div className="eventsInfo-block_buttonDiv">
-                <button>OK</button>
+                <button onClick={this.props.cancelHandler}>OK</button>
                 <button>Cancel</button>
             </div>
         </div>
