@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 app.use(cors());
 
 var Schema = mongoose.Schema;
-mongoose.connect('mongodb+srv://thelyaa:Fkm,tlj1@cluster0.lxn7u.mongodb.net/usersProject', {
+mongoose.connect('mongodb+srv://<nickname>:<password>@cluster0.lxn7u.mongodb.net/usersProject', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
